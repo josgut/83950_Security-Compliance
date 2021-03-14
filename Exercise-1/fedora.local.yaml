@@ -1,0 +1,6 @@
+---
+- name: Fedora system
+  hosts: fedora.local
+  become: true
+  roles:
+    - role: systemconf1-role

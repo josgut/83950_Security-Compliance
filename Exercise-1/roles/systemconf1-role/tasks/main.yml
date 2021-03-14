@@ -1,0 +1,28 @@
+---
+# tasks file for systemconf1-role
+  - name: Are we in a Fedora Linux system?
+    fail:
+      msg: This role only supports Fedora or RedHat Systems and the system is "{{ ansible_os_family }}"
+    when: ansible_os_family != "Fedora" and ansible_os_family != "RedHat"
+  - name: Install libpqwquality
+    package:
+      name: "{{ yum_libpwquality }}"
+      state: installed
+    register: yum_libpwquality_installed
+  - name: Ensure that libpwquality it is registered at PAM level
+    command:
+      cmd: egrep "^\s*password\s+requisite\s+pam_pwquality\.so.*$" /etc/pam.d/password-auth          
+    register: egrep_pam_pwquality    
+    changed_when: false
+    ignore_errors: true    
+  - name: Show an error if line is not present
+    fail:
+      msg: "pwqaulity library not present int /etc/pam.d/password-auth"
+    when : egrep_pam_pwquality.rc != 0
+  - name: Set minimun number of password characters
+    lineinfile: 
+      path: /etc/security/pwquality.conf
+      state: present
+      regexp: '^(#*)(\s*)minlen\s+=\s+[0-9]+$'
+      line: 'minlen = {{ min_passwd_length }}'
+       

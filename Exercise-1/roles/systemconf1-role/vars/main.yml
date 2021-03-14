@@ -1,0 +1,4 @@
+---
+# vars file for systemconf1-role
+yum_libpwquality: "libpwquality"
+min_passwd_length: 11
