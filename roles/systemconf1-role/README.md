@@ -3,6 +3,12 @@ Role Name
 
 Configure a Fedora system according a set of security rules.
 
+  * users in a Linux system can set only passwords that are n characters long
+
+  * umask is set to an appropriate value
+
+  * user generation of core dumps is disabled
+
 Requirements
 ------------
 
@@ -18,6 +24,9 @@ Dependencies
 ------------
 
 libpwquality
+User that executes playbook can connect to remote server with public key
+Remote server has sudo configured with no passwod to whell group 
+User that executes playbook has wheel group assigned in remote server
 
 Example Playbook
 ----------------
