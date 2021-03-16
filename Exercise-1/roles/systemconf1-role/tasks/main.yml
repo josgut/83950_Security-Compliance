@@ -18,11 +18,47 @@
   - name: Show an error if line is not present
     fail:
       msg: "pwqaulity library not present int /etc/pam.d/password-auth"
-    when : egrep_pam_pwquality.rc != 0
+    when : egrep_pam_pwquality is defined and egrep_pam_pwquality.rc != 0
   - name: Set minimun number of password characters
     lineinfile: 
       path: /etc/security/pwquality.conf
       state: present
-      regexp: '^(#*)(\s*)minlen\s+=\s+[0-9]+$'
+      regexp: '^(#*)(\s*)minlen\s+=\s+[0-9]+\s*$'
       line: 'minlen = {{ min_passwd_length }}'
-       
+  - name: Set default umask
+    lineinfile:
+      path: /etc/login.defs
+      state: present
+      regexp: '^(#*)(\s*)UMASK\s+[0-9]+\s*$'
+      line: 'UMASK  {{ default_umask }}'
+    when: default_umask is defined
+  - name: Disable user coredump generation
+    lineinfile: 
+      path: /etc/security/limits.conf
+      state: present
+      regexp: '^(#*)(\s*)*\s+hard\s+core\s+0\s*$'
+      line: "*\t\thard\tcore\t\t0"
+      insertbefore: '(?i)^#\s+End\s+of\s+file\s*$'  
+  - name: Disable user coredump generation despite setuid 
+    sysctl:       
+      name: fs.suid_dumpable
+      state: present
+      value: '0'
+  - name: Add an script to disable coredump with ulimit command
+    copy:
+      src: disable-coredumps.sh
+      dest: /etc/profile.d/disable-coredumps.sh
+      mode: '0755'
+  - name: Disable coredump at systemd daemon
+    lineinfile: 
+      path: /etc/systemd/coredump.conf
+      state: present
+      regexp: '^(#+)(\s*)Storage\s*=\s*(external|journal)\s*$'
+      line: "Storage=none"
+    register: systemdconf  
+  - name: Reload systemd configuration if changed
+    command:      
+      cmd: "systemctl daemon-reload"
+    when: systemdconf.changed is true
+
+    
