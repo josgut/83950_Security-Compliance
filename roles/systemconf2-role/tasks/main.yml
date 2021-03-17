@@ -1,2 +1,8 @@
 ---
 # tasks file for systemconf2-role
+- name: Template 
+  template:
+    backup: yes
+    lstrip_blocks: no
+    src: sysctl.conf.j2
+    dest: /etc/sysctl.conf

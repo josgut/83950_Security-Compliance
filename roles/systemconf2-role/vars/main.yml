@@ -1,5 +1,2 @@
 ---
 # vars file for systemconf2-role
-systemconf2_file_contents: 
-  - "Hello world  a sample content file "
-  - "Hello world  a sample content file second line "
