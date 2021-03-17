@@ -32,25 +32,26 @@ Ansible >= 2.8
 Role Variables
 --------------
 systemconf1-role
-    min_passwd_length: default 11\n
-    default_umask: default to 644\n
+
+    min_passwd_length: default 11
+
+    default_umask: default to 644
+
+systemconf2-role
+
+    sysctl_file_content
 
 Dependencies
 ------------
 
 libpwquality
+
 User that executes playbook can connect to remote server with public key
+
 Remote server has sudo configured with no passwod to whell group 
+
 User that executes playbook has wheel group assigned in remote server
 
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
