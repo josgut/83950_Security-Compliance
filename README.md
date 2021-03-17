@@ -13,13 +13,20 @@ Configure a Fedora system according a set of security rules.
 
   * user generation of core dumps is disabled
 
-exercise-1.yaml:
+exercise-2.yaml:
+  * Contents of the file would be supplied as an Ansible variable.
+
+  * File contents have to match that variable exactly - there is nothing extra in the file (not even whitespace).
+
+  * If the file content is correct before the playbook execution, the playbook won’t modify it during its execution.
 
 Requirements
 ------------
 
 A host named "fedora.local"
+
 libpwquality
+
 Ansible >= 2.8
 
 Role Variables
