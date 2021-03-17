@@ -25,8 +25,8 @@ Ansible >= 2.8
 Role Variables
 --------------
 systemconf1-role
-    min_passwd_length: default 11
-    default_umask: default to 644
+    min_passwd_length: default 11\n
+    default_umask: default to 644\n
 
 Dependencies
 ------------
