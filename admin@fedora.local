@@ -1,0 +1,13 @@
+#/bin/bash
+
+#Search user to remove
+
+if [$# -ne 1];
+then 
+    echo "Error in parameters: $0 name_of_user_to_remove from sudoers"
+    exit 1
+fi
+
+user_to_remove=$1
+
+sed -e 'd/^\s*$user_to_remove\s+(\(\d\W,.)\))+\s+=' /etc/sudoers > /tmp/sudoers.$$
