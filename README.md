@@ -20,14 +20,16 @@ exercise-2.yaml:
 
   * If the file content is correct before the playbook execution, the playbook won’t modify it during its execution.
 
+exercise-4.sh:
+  * Only has a parameter with then name of the user to delete from sudoers file.
+
 Requirements
 ------------
 
-A host named "fedora.local"
-
-libpwquality
-
-Ansible >= 2.8
+  * A host named "fedora.local"
+  * Ansible >= 2.8
+  * An user in wheel group on remote host
+  * Wheel users can change to root without password
 
 Role Variables
 --------------
@@ -44,13 +46,13 @@ systemconf2-role
 Dependencies
 ------------
 
-libpwquality
+* libpwquality
 
-User that executes playbook can connect to remote server with public key
+* User that executes playbook can connect to remote server with public key
 
-Remote server has sudo configured with no passwod to whell group 
+* Remote server has sudo configured with no passwod to whell group 
 
-User that executes playbook has wheel group assigned in remote server
+* User that executes playbook has wheel group assigned in remote server
 
 
 License
